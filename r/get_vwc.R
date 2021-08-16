@@ -12,8 +12,8 @@ probe.long.infor.df <- rbind(tmp.1,tmp.2)
 
 # download vwc data####
 
-s.date = as.Date('2019-5-1')
-e.date = as.Date('2020-11-1')
+s.date = as.Date('2019-8-9')
+e.date = as.Date('2020-6-30')
 
 get.vwc.dg.func(s.date,e.date,probe.long.infor.df)
 
