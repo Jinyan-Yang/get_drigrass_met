@@ -16,7 +16,16 @@ s.date = as.Date('2019-8-9')
 e.date = as.Date('2020-6-30')
 
 get.vwc.dg.func(s.date,e.date,probe.long.infor.df)
+get.vwc.dg.func(s.date = s.date,
+                e.date = e.date,
+                probe.long.infor.df = probe.long.infor.df,var.in = 'AIRVARS')
 
+get.vwc.dg.func(s.date = s.date,
+                e.date = e.date,
+                probe.long.infor.df = probe.long.infor.df,var.in = 'IRRIG')
+
+dg.tair.df <- readRDS('drigrass_AIRVARS_2019080920200630.rds')
+dg.irrig.df <- readRDS('drigrass_IRRIG_2019080920200630.rds')
 # save a csv copy
 dg.swc.df <- readRDS('drigrass_vwc_2019050120201101.rds')
 write.csv(dg.swc.df,'drigrass_vwc_2019050120201101.csv',row.names = F)

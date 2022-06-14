@@ -13,7 +13,7 @@ if(!file.exists('c:/hiev/token.txt')){
 
 
 # function to download vwv for drigrass
-get.vwc.dg.func <- function(s.date,e.date,probe.long.infor.df){
+get.vwc.dg.func <- function(s.date,e.date,var.in = 'VWSOIL',probe.long.infor.df){
   # creat a vector of end day of months
   date.vec <- seq(s.date,e.date,by='month')-1
   
@@ -21,12 +21,17 @@ get.vwc.dg.func <- function(s.date,e.date,probe.long.infor.df){
   
   # read vwc
   for (i in seq_along(date.vec)){
+    
+    date.date <- ceiling_date(date.vec[i], "month") - 1
+
     # creat file name
-    fn <- sprintf('MROS_AUTO_VWSOIL_R_%s.dat',format(date.vec[i],'%Y%m%d'))
+    fn <- sprintf('MROS_AUTO_%s_R_%s.dat',
+                  var.in,
+                  format(date.date,'%Y%m%d'))
     
     vwc.tmp.df <- try(downloadTOA5(fn))
     
-    if(class(vwc.tmp.df) != 'try-error'){
+    if(class(vwc.tmp.df) != 'try-error' & var.in == 'VWSOIL'){
       # get daily mean
       vwc.tmp.df$date <- as.Date(vwc.tmp.df$DateTime)
       vwc.sum.df <- summaryBy(.~date,data = vwc.tmp.df,FUN=mean,na.rm=T,keep.names = T)
@@ -45,16 +50,18 @@ get.vwc.dg.func <- function(s.date,e.date,probe.long.infor.df){
       
       tmp.ls[[i]] <- dg.vwc.df.mean
       # plot(vwc~date,data = dg.vwc.df.mean[dg.vwc.df.mean$plot.nm == 2,])
-    }else{
+    }else if (class(vwc.tmp.df) == 'try-error'){
+      
       tmp.ls[[i]] <- NA
+    }else{
+      tmp.ls[[i]] <- vwc.tmp.df
     }
-    
-    
-    
+
   }
   
   out.df <- do.call(rbind,tmp.ls)
   
-  out.nm <- paste0('drigrass_vwc_',format(s.date,'%Y%m%d'),format(e.date,'%Y%m%d'),'.rds')
+  out.nm <- paste0('drigrass_',var.in,'_',
+                   format(s.date,'%Y%m%d'),format(e.date,'%Y%m%d'),'.rds')
   saveRDS(out.df,out.nm)
 }
