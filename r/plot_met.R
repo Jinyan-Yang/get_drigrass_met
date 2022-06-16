@@ -69,7 +69,7 @@ met.sub.df <- spread(data = swc.sub.df[,c('date','Treatment','vwc.mean')],
                      key = Treatment,value = vwc.mean)
 
 
-pdf('dg_met_plot.pdf',width = 8,height = 8*.618*4)
+pdf('dg_met_plot.pdf',width = 4,height = 4*.618*4)
 par(mar=c(3,5,1,1),
     mfrow=c(4,1))
 # plot together#####
@@ -89,10 +89,11 @@ points((ShelterControl - Ambient)~date,
        data= met.sub.df,type='l',
        col = 4,lwd=3)
 abline(h=0,lty='dashed',col='grey',lwd=3)
-legend('topleft',
+legend('topright',
        legend = c('Drought','Frequency','Shelter Control'),
        col=palette()[2:4],
        pch=16,bty='n',horiz = T)
+legend('topleft',legend = '(a)',bty='n')
 # plot rainfall
 dg.irrig.df.daily <- summaryBy(irrigsum~Date + currentplot,
                                data = dg.irrig.df,
@@ -120,11 +121,11 @@ points((Drought - Ambient)~Date,
        col = 2,lwd=3)
 
 abline(h=0,lty='dashed',col='grey',lwd=3)
-legend('topleft',
+legend('topright',
        legend = c('Drought','Frequency'),
        col=palette()[2:3],
        pch=16,bty='n',horiz = F)
-
+legend('topleft',legend = '(b)',bty='n')
 # tair
 dg.tair.df$t.amb.mean <- (dg.tair.df$Tair_Avg.1. + 
                             dg.tair.df$Tair_Avg.5. + 
@@ -140,7 +141,8 @@ plot((t.amb.mean)~DateTime,
 
 points((t.amb.mean - t.os.mean)~DateTime, 
      data = dg.tair.df,type='l',
-     col='grey')
+     col=4)
+legend('topleft',legend = '(c)',bty='n')
 # par
 dg.par.daily.df <- summaryBy(PPFD_Avg.1. + PPFD_Avg.2. + PPFD_Avg.3.+
                                PPFD_Avg.4. + PPFD_Avg.5. + PPFD_Avg.6.
@@ -167,6 +169,7 @@ points((par.os.mean - par.amb.mean)~Date,
        data = dg.par.daily.df,
        type='l',col=4)
 abline(h=0,lty='dashed',col='grey',lwd=3)
+legend('topleft',legend = '(d)',bty='n')
 #####
 dev.off()
 
