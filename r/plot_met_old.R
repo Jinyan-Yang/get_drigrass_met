@@ -69,7 +69,7 @@ met.sub.df <- spread(data = swc.sub.df[,c('date','Treatment','vwc.mean')],
                      key = Treatment,value = vwc.mean)
 
 
-pdf('dg_met_plot.pdf',width = 4,height = 3*.618*4)
+pdf('dg_met_plot_new.pdf',width = 4,height = 3*.618*4)
 par(mar=c(5,5,1,1),
     mfrow=c(3,1))
 # plot together#####
@@ -82,6 +82,10 @@ par(mar=c(5,5,1,1),
 
 # palette(col.df$auLandscape[c(2,4,5,1)])
 palette(c("green3","goldenrod4","blue"))
+
+# 
+par(mar=c(0,5,4,1))
+# 
 plot((Drought - Ambient)~date,data= met.sub.df,
      ylim=c(-0.1,0.1),type='l',xlab=' ',xaxt='n',
      ylab='Difference in soil moisture content',
@@ -117,6 +121,8 @@ dg.rain.df.sum.spread <- spread(data = dg.rain.df.sum,
                                 key = Treatment,value = irrigsum.sum.mean)
 # plot
 # palette(col.df$auLandscape[c(4,5,1)])
+par(mar=c(2,5,2,1))
+
 plot(( Frequency- Ambient)~Date,data= dg.rain.df.sum.spread,
      ylim=c(-20,40),type='l',xlab=' ',xaxt='n',
      ylab=expression('Difference in rainfall'~(mm~d^-1)),
@@ -138,6 +144,7 @@ dg.rain.df.sum.spread$cum.rain.amb <- cumsum(dg.rain.df.sum.spread$Ambient)
 dg.rain.df.sum.spread$cum.rain.drt <- cumsum(dg.rain.df.sum.spread$Drought)
 dg.rain.df.sum.spread$cum.rain.frq <- cumsum(dg.rain.df.sum.spread$Frequency)
 # 
+par(mar=c(4,5,0,1))
 
 plot(cum.rain.amb~Date,data= dg.rain.df.sum.spread,
      type='l',xlab='2020',
@@ -156,7 +163,7 @@ points(cum.rain.frq~Date,
 #        legend = c('Drought','Frequency'),
 #        col=palette()[2:3],
 #        pch=16,bty='n',horiz = T)
-legend('topleft',legend = '(a)',bty='n')
+legend('topleft',legend = '(c)',bty='n')
 
 
 # tair
@@ -167,6 +174,8 @@ dg.tair.df$t.os.mean <- (dg.tair.df$Tair_Avg.2. +
                             dg.tair.df$Tair_Avg.3. + 
                             dg.tair.df$Tair_Avg.4.)/3
 # plot
+par(mar=c(0,5,4,1))
+
 plot((t.amb.mean)~DateTime, 
      data = dg.tair.df,type='l',
      xlab=' ',xaxt='n',
@@ -175,7 +184,7 @@ plot((t.amb.mean)~DateTime,
 points((t.amb.mean - t.os.mean)~DateTime, 
      data = dg.tair.df,type='l',
      col=4)
-legend('topleft',legend = '(c)',bty='n')
+legend('topleft',legend = '(a)',bty='n')
 # par
 dg.par.daily.df <- summaryBy(PPFD_Avg.1. + PPFD_Avg.2. + PPFD_Avg.3.+
                                PPFD_Avg.4. + PPFD_Avg.5. + PPFD_Avg.6.
@@ -202,7 +211,7 @@ points((par.os.mean - par.amb.mean)~Date,
        data = dg.par.daily.df,
        type='l',col=4)
 abline(h=0,lty='dashed',col='grey',lwd=3)
-legend('topleft',legend = '(d)',bty='n')
+legend('topleft',legend = '(b)',bty='n')
 #####
 dev.off()
 
