@@ -173,8 +173,12 @@ legend('topleft',legend = '(d)',bty='n')
 #####
 dev.off()
 
+write.csv(dg.par.daily.df,'cache/par_Daily.csv',row.names = F)
 
-
+tair.sub.df <- dg.tair.df[,c("Date","t.amb.mean","t.os.mean")]
+tair.sub.df <- doBy::summary_by(.~Date,data = tair.sub.df,
+                                FUN=mean,na.rm=T,keep.names = T)
+write.csv(tair.sub.df,'cache/tair_Daily.csv',row.names = F)
 
 
 

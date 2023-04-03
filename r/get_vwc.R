@@ -26,6 +26,10 @@ get.vwc.dg.func(s.date = s.date,
 
 dg.tair.df <- readRDS('drigrass_AIRVARS_2019080920200630.rds')
 dg.irrig.df <- readRDS('drigrass_IRRIG_2019080920200630.rds')
+
+write.csv(dg.tair.df,'cache/driGrass_tair_Par.csv',row.names = F)
+
+# write.csv(dg.irrig.df,'cache/driGrass_tair_Par.csv',row.names = F)
 # save a csv copy
 dg.swc.df <- readRDS('drigrass_vwc_2019050120201101.rds')
 write.csv(dg.swc.df,'drigrass_vwc_2019050120201101.csv',row.names = F)
